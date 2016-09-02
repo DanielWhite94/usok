@@ -255,14 +255,9 @@ int main(int argc, char **argv) {
 			playerY+=dy;
 
 			// Next square a box?
-			if (!(level[playerY][playerX]&TileTypeBaseNoBox)) {
-				if (TILETYPEEMPTY(level[playerY+dy][playerX+dx])) {
-					// can be moved, move
-					level[playerY+dy][playerX+dx]&=~TileTypeBaseNoBox;
-					level[playerY][playerX]|=TileTypeBaseNoBox;
-				} else {
-					// we abort player moving below (as square not empty)
-				}
+			if (!(level[playerY][playerX]&TileTypeBaseNoBox) && TILETYPEEMPTY(level[playerY+dy][playerX+dx])) {
+				level[playerY+dy][playerX+dx]&=~TileTypeBaseNoBox; // remove from current square
+				level[playerY][playerX]|=TileTypeBaseNoBox; // add to new square
 			}
 
 			// Next square not empty and walkable?
