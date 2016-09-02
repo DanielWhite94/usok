@@ -210,16 +210,7 @@ int main(int argc, char **argv) {
 
 	// Create image: player
 	// TODO: Fix
-	memset(maskTempArray, 0, sizeof(maskTempArray));
-	maskTempArray[0]=0x447C7DFE01297D39llu;
-	maskTempArray[1]=0x44006D017D7C0000llu;
-	memset(colourTempArray, 0, sizeof(colourTempArray));
-	colourTempArray[0]=usokColourDarkGrey;
-	colourTempArray[1]=usokColourLightGrey;
-	colourTempArray[2]=usokColourLightYellow;
-	colourTempArray[3]=usokColourBrown;
-	usokImages[TileTypePlayerOnGoal]=imageFromMasks(maskTempArray, colourTempArray);
-
+	usokImages[TileTypePlayerOnGoal]=usokImages[TileTypePlayer];
 
 	FILE *file=fopen(argv[1], "r");
 	int c, x=0, y=0;
