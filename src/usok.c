@@ -97,7 +97,7 @@ Window window;
 GC gc;
 
 #define UsokLevelSize 256
-TileType level[UsokLevelSize][UsokLevelSize];
+TileType level[UsokLevelSize][UsokLevelSize]={TileTypeWall};
 
 I playerX, playerY;
 
@@ -220,15 +220,9 @@ int main(int argc, char **argv) {
 	colourTempArray[3]=usokColourBrown;
 	usokImages[TileTypePlayerOnGoal]=imageFromMasks(maskTempArray, colourTempArray);
 
-	// Create level
-	I x,y;
-	for(y=0;y<UsokLevelSize;++y)
-		for(x=0;x<UsokLevelSize;++x)
-			level[x][y]=TileTypeWall;
 
 	FILE *file=fopen(argv[1], "r");
-	int c;
-	x=0, y=0;
+	int c, x=0, y=0;
 	while((c=fgetc(file))!=EOF) {
 		switch(c) {
 			case '#': level[y+UsokLevelSize/2][x+UsokLevelSize/2]=TileTypeWall; x++; break;
