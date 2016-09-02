@@ -8,7 +8,6 @@
 #include <unistd.h>
 
 #define I int
-#define D double
 
 #define UsokZoom 2 // integer in range [1,8]
 #define USokPixelSize UsokZoom
