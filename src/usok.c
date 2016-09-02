@@ -212,6 +212,7 @@ int main(int argc, char **argv) {
 	// TODO: Fix
 	usokImages[TileTypePlayerOnGoal]=usokImages[TileTypePlayer];
 
+	// Load level
 	FILE *file=fopen(argv[1], "r");
 	int c, x=0, y=0;
 	while((c=fgetc(file))!=EOF) {
