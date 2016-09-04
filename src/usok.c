@@ -20,17 +20,17 @@
 
 typedef struct {
 	uint64_t m0, m1;
-	uint32_t colours[4];
+	uint32_t c[4];
 } UsokImage;
 
 UsokImage usokImages[]={
-        [1]={.colours[0]=0x1},
-        [2]={.m0=0x183c3c180000llu, .colours[0]=0x5c5c5c, .colours[1]=0xff},
-        [3]={.colours[0]=0x5c5c5c},
-        [7]={.m0=0x447c7dfe01297d39llu, .m1=0x44006d017d7c0000llu, .colours[0]=0x5c5c5c, .colours[1]=0x757575, .colours[2]=0xf7e26b, .colours[3]=0x4d2b07},
-        [10]={.m0=0x42240000244200llu, .m1=0x183c3c180000llu, .colours[0]=0x5c5c5c, .colours[1]=0x1, .colours[2]=0xff},
-        [11]={.m0=0x42241818244200llu, .colours[0]=0x5c5c5c, .colours[1]=0x1},
-        [15]={.m0=0x447c7dfe01297d39llu, .m1=0x44006d017d7c0000llu, .colours[0]=0x5c5c5c, .colours[1]=0x757575, .colours[2]=0xf7e26b, .colours[3]=0x4d2b07},
+        [1]={.c[0]=0x1},
+        [2]={.m0=0x183c3c180000llu, .c[0]=0x5c5c5c, .c[1]=0xff},
+        [3]={.c[0]=0x5c5c5c},
+        [7]={.m0=0x447c7dfe01297d39llu, .m1=0x44006d017d7c0000llu, .c[0]=0x5c5c5c, .c[1]=0x757575, .c[2]=0xf7e26b, .c[3]=0x4d2b07},
+        [10]={.m0=0x42240000244200llu, .m1=0x183c3c180000llu, .c[0]=0x5c5c5c, .c[1]=0x1, .c[2]=0xff},
+        [11]={.m0=0x42241818244200llu, .c[0]=0x5c5c5c, .c[1]=0x1},
+        [15]={.m0=0x447c7dfe01297d39llu, .m1=0x44006d017d7c0000llu, .c[0]=0x5c5c5c, .c[1]=0x757575, .c[2]=0xf7e26b, .c[3]=0x4d2b07},
 };
 
 Display *disp;
@@ -45,7 +45,7 @@ I playerX, playerY;
 void imageDraw(UsokImage image, int x, int y) {
 	I i, c;
 	for(i=0;i<64;++i)
-		if (c=image.colours[((image.m1>>i)%2<<1)|(image.m0>>i)%2])
+		if (c=image.c[((image.m1>>i)%2<<1)|(image.m0>>i)%2])
 			XSetForeground(disp, gc, c),
 			XFillRectangle(disp, window, gc, x+i%8*USokPixelSize, y+i/8*USokPixelSize, USokPixelSize, USokPixelSize);
 }
