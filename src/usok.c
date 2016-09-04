@@ -22,21 +22,6 @@
 
 typedef uint32_t UsokColour;
 
-const UsokColour usokColourLightBlue=0x8888FF;
-const UsokColour usokColourDarkBlue=0x0000FF;
-const UsokColour usokColourLightGreen=0x44FF44;
-const UsokColour usokColourDarkGreen=0x00DD00;
-const UsokColour usokColourLightYellow=0xf7e26b;
-const UsokColour usokColourDarkYellow=0xFFFF00;
-const UsokColour usokColourBrown=0x4d2b07;
-const UsokColour usokColourLightGrey=0x757575;
-const UsokColour usokColourBlack=0x000001;
-const UsokColour usokColourTransparent=0x000000;
-const UsokColour usokColourDarkDarkGreen=0x184a1d;
-const UsokColour usokColourDarkGrey=0x5c5c5c;
-const UsokColour usokColourPink=0xff26db;
-const UsokColour usokColourOrange=0xeb8931;
-
 typedef uint64_t UsokMask;
 
 typedef struct {
