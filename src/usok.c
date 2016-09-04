@@ -72,8 +72,7 @@ int main(int argc, char **argv) {
 
 	// Drawing initialization
 	disp=XOpenDisplay(0);
-	window=XCreateSimpleWindow(disp,RootWindow(disp,0),0,0, UsokWindowWidth, UsokWindowHeight,0,0,0);
-	XSelectInput(disp, window, KeyPressMask);
+	XSelectInput(disp, window=XCreateSimpleWindow(disp,RootWindow(disp,0),0,0, UsokWindowWidth, UsokWindowHeight,0,0,0), KeyPressMask);
 	XMapWindow(disp,window);
 	gc=XCreateGC(disp,window,0,0);
 
