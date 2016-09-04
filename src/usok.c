@@ -88,9 +88,10 @@ int main(int argc, char **argv) {
 			// Remove player from current x,y.
 			level[playerY][playerX]^=4;
 
-			// Update playerX,Y.
-			playerX+=dx;
-			playerY+=dy;
+			// Lookup key and update playerX,Y.
+			I key=XLookupKeysym(&event.xkey,0);
+			playerX+=dx=(key==KeyR)-(key==KeyL);
+			playerY+=dy=(key==KeyD)-(key==KeyU);
 
 			// Next square a box?
 			if (!(level[playerY][playerX]&1) && level[playerY+dy][playerX+dx]%8==3) {
