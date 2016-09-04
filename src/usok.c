@@ -9,14 +9,10 @@
 
 #define I int
 
-#define UsokZoom 2 // integer in range [1,8]
-#define USokPixelSize UsokZoom
-#define UsokImageSize 8
-#define UsokTileSize (USokPixelSize*UsokImageSize)
+#define USokPixelSize 2
+#define UsokTileSize (USokPixelSize*8)
 #define UsokTilesWide 40
 #define UsokTilesHigh 30
-#define UsokWindowWidth (UsokTilesWide*UsokTileSize)
-#define UsokWindowHeight (UsokTilesHigh*UsokTileSize)
 
 typedef struct {
 	uint64_t m0, m1;
@@ -72,7 +68,7 @@ I main(I argc, char **argv) {
 
 	// Drawing initialization
 	disp=XOpenDisplay(0);
-	XSelectInput(disp, window=XCreateSimpleWindow(disp,RootWindow(disp,0),0,0, UsokWindowWidth, UsokWindowHeight,0,0,0), KeyPressMask);
+	XSelectInput(disp, window=XCreateSimpleWindow(disp,RootWindow(disp,0),0,0, UsokTilesWide*UsokTileSize, UsokTilesHigh*UsokTileSize,0,0,0), KeyPressMask);
 	XMapWindow(disp,window);
 	gc=XCreateGC(disp,window,0,0);
 
