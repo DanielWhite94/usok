@@ -24,21 +24,12 @@ typedef struct {
 } UsokImage;
 
 UsokImage usokImages[]={
-        [0]={.m0=0x0llu, .m1=0x0llu, .colours[0]=0x0, .colours[1]=0x0, .colours[2]=0x0, .colours[3]=0x0},
-        [1]={.m0=0x0llu, .m1=0x0llu, .colours[0]=0x1, .colours[1]=0x0, .colours[2]=0x0, .colours[3]=0x0},
-        [2]={.m0=0x183c3c180000llu, .m1=0x0llu, .colours[0]=0x5c5c5c, .colours[1]=0xff, .colours[2]=0x0, .colours[3]=0x0},
-        [3]={.m0=0x0llu, .m1=0x0llu, .colours[0]=0x5c5c5c, .colours[1]=0x0, .colours[2]=0x0, .colours[3]=0x0},
-        [4]={.m0=0x0llu, .m1=0x0llu, .colours[0]=0x0, .colours[1]=0x0, .colours[2]=0x0, .colours[3]=0x0},
-        [5]={.m0=0x0llu, .m1=0x0llu, .colours[0]=0x0, .colours[1]=0x0, .colours[2]=0x0, .colours[3]=0x0},
-        [6]={.m0=0x0llu, .m1=0x0llu, .colours[0]=0x0, .colours[1]=0x0, .colours[2]=0x0, .colours[3]=0x0},
+        [1]={.colours[0]=0x1},
+        [2]={.m0=0x183c3c180000llu, .colours[0]=0x5c5c5c, .colours[1]=0xff},
+        [3]={.colours[0]=0x5c5c5c},
         [7]={.m0=0x447c7dfe01297d39llu, .m1=0x44006d017d7c0000llu, .colours[0]=0x5c5c5c, .colours[1]=0x757575, .colours[2]=0xf7e26b, .colours[3]=0x4d2b07},
-        [8]={.m0=0x0llu, .m1=0x0llu, .colours[0]=0x0, .colours[1]=0x0, .colours[2]=0x0, .colours[3]=0x0},
-        [9]={.m0=0x0llu, .m1=0x0llu, .colours[0]=0x0, .colours[1]=0x0, .colours[2]=0x0, .colours[3]=0x0},
-        [10]={.m0=0x42240000244200llu, .m1=0x183c3c180000llu, .colours[0]=0x5c5c5c, .colours[1]=0x1, .colours[2]=0xff, .colours[3]=0x0},
-        [11]={.m0=0x42241818244200llu, .m1=0x0llu, .colours[0]=0x5c5c5c, .colours[1]=0x1, .colours[2]=0x0, .colours[3]=0x0},
-        [12]={.m0=0x0llu, .m1=0x0llu, .colours[0]=0x0, .colours[1]=0x0, .colours[2]=0x0, .colours[3]=0x0},
-        [13]={.m0=0x0llu, .m1=0x0llu, .colours[0]=0x0, .colours[1]=0x0, .colours[2]=0x0, .colours[3]=0x0},
-        [14]={.m0=0x0llu, .m1=0x0llu, .colours[0]=0x0, .colours[1]=0x0, .colours[2]=0x0, .colours[3]=0x0},
+        [10]={.m0=0x42240000244200llu, .m1=0x183c3c180000llu, .colours[0]=0x5c5c5c, .colours[1]=0x1, .colours[2]=0xff},
+        [11]={.m0=0x42241818244200llu, .colours[0]=0x5c5c5c, .colours[1]=0x1},
         [15]={.m0=0x447c7dfe01297d39llu, .m1=0x44006d017d7c0000llu, .colours[0]=0x5c5c5c, .colours[1]=0x757575, .colours[2]=0xf7e26b, .colours[3]=0x4d2b07},
 };
 
