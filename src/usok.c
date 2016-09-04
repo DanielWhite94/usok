@@ -115,7 +115,7 @@ I main(I argc, char **argv) {
 		level[playerY][playerX]^=4;
 
 		// Delay
-		usleep(1000*1000.0/8);
+		usleep(99999);
 	}
 }
 
