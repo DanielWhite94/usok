@@ -18,7 +18,7 @@
 #define UsokWindowWidth (UsokTilesWide*UsokTileSize)
 #define UsokWindowHeight (UsokTilesHigh*UsokTileSize)
 
-#define TILETYPEEMPTY(t) (((t)&3)==3)
+#define TILETYPEEMPTY(t) ((t)%8==3)
 
 typedef uint32_t UsokColour;
 
