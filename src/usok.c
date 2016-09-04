@@ -37,8 +37,7 @@ Display *disp;
 Window window;
 GC gc;
 
-#define UsokLevelSize 256
-I level[UsokLevelSize][UsokLevelSize]={1};
+I level[512][512]={1};
 
 I playerX, playerY;
 
@@ -56,13 +55,13 @@ int main(int argc, char **argv) {
 	int c, x=0, y=0;
 	while((c=fgetc(file))!=EOF) {
 		switch(c) {
-			case '#': level[y+UsokLevelSize/2][x+UsokLevelSize/2]=1; x++; break;
-			case '@': level[y+UsokLevelSize/2][x+UsokLevelSize/2]=7; playerX=x+UsokLevelSize/2, playerY=y+UsokLevelSize/2; x++; break;
-			case '+': level[y+UsokLevelSize/2][x+UsokLevelSize/2]=15; playerX=x+UsokLevelSize/2, playerY=y+UsokLevelSize/2; x++; break;
-			case '$': level[y+UsokLevelSize/2][x+UsokLevelSize/2]=2; x++; break;
-			case '*': level[y+UsokLevelSize/2][x+UsokLevelSize/2]=10; x++; break;
-			case '.': level[y+UsokLevelSize/2][x+UsokLevelSize/2]=11; x++; break;
-			case ' ': level[y+UsokLevelSize/2][x+UsokLevelSize/2]=3; x++; break;
+			case '#': level[y+256][x+256]=1; x++; break;
+			case '@': level[y+256][x+256]=7; playerX=x+256, playerY=y+256; x++; break;
+			case '+': level[y+256][x+256]=15; playerX=x+256, playerY=y+256; x++; break;
+			case '$': level[y+256][x+256]=2; x++; break;
+			case '*': level[y+256][x+256]=10; x++; break;
+			case '.': level[y+256][x+256]=11; x++; break;
+			case ' ': level[y+256][x+256]=3; x++; break;
 			case '\n':
 				++y;
 				x=0;
