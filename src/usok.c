@@ -44,24 +44,24 @@ typedef struct {
 	UsokColour colours[4];
 } UsokImage;
 
-UsokImage imageFromArray(int array[64], UsokColour colours[4]) {
-	UsokImage image={.masks[0]=0, .masks[1]=0};
-
-	int x, y, z=0;
-	for(y=0;y<8;++y)
-		for(x=0;x<8;++x) {
-			image.masks[0]|=((array[z]>>0)&1llu)<<z;
-			image.masks[1]|=((array[z]>>1)&1llu)<<z;
-			++z;
-		}
-
-	for(z=0; z<4; ++z)
-		image.colours[z]=colours[z];
-
-	return image;
-}
-
-UsokImage usokImages[16];
+UsokImage usokImages[]={
+        [0]={.masks[0]=0x0llu, .masks[1]=0x0llu, .colours[0]=0x0, .colours[1]=0x0, .colours[2]=0x0, .colours[3]=0x0},
+        [1]={.masks[0]=0x0llu, .masks[1]=0x0llu, .colours[0]=0x1, .colours[1]=0x0, .colours[2]=0x0, .colours[3]=0x0},
+        [2]={.masks[0]=0x183c3c180000llu, .masks[1]=0x0llu, .colours[0]=0x5c5c5c, .colours[1]=0xff, .colours[2]=0x0, .colours[3]=0x0},
+        [3]={.masks[0]=0x0llu, .masks[1]=0x0llu, .colours[0]=0x5c5c5c, .colours[1]=0x0, .colours[2]=0x0, .colours[3]=0x0},
+        [4]={.masks[0]=0x0llu, .masks[1]=0x0llu, .colours[0]=0x0, .colours[1]=0x0, .colours[2]=0x0, .colours[3]=0x0},
+        [5]={.masks[0]=0x0llu, .masks[1]=0x0llu, .colours[0]=0x0, .colours[1]=0x0, .colours[2]=0x0, .colours[3]=0x0},
+        [6]={.masks[0]=0x0llu, .masks[1]=0x0llu, .colours[0]=0x0, .colours[1]=0x0, .colours[2]=0x0, .colours[3]=0x0},
+        [7]={.masks[0]=0x447c7dfe01297d39llu, .masks[1]=0x44006d017d7c0000llu, .colours[0]=0x5c5c5c, .colours[1]=0x757575, .colours[2]=0xf7e26b, .colours[3]=0x4d2b07},
+        [8]={.masks[0]=0x0llu, .masks[1]=0x0llu, .colours[0]=0x0, .colours[1]=0x0, .colours[2]=0x0, .colours[3]=0x0},
+        [9]={.masks[0]=0x0llu, .masks[1]=0x0llu, .colours[0]=0x0, .colours[1]=0x0, .colours[2]=0x0, .colours[3]=0x0},
+        [10]={.masks[0]=0x42240000244200llu, .masks[1]=0x183c3c180000llu, .colours[0]=0x5c5c5c, .colours[1]=0x1, .colours[2]=0xff, .colours[3]=0x0},
+        [11]={.masks[0]=0x42241818244200llu, .masks[1]=0x0llu, .colours[0]=0x5c5c5c, .colours[1]=0x1, .colours[2]=0x0, .colours[3]=0x0},
+        [12]={.masks[0]=0x0llu, .masks[1]=0x0llu, .colours[0]=0x0, .colours[1]=0x0, .colours[2]=0x0, .colours[3]=0x0},
+        [13]={.masks[0]=0x0llu, .masks[1]=0x0llu, .colours[0]=0x0, .colours[1]=0x0, .colours[2]=0x0, .colours[3]=0x0},
+        [14]={.masks[0]=0x0llu, .masks[1]=0x0llu, .colours[0]=0x0, .colours[1]=0x0, .colours[2]=0x0, .colours[3]=0x0},
+        [15]={.masks[0]=0x447c7dfe01297d39llu, .masks[1]=0x44006d017d7c0000llu, .colours[0]=0x5c5c5c, .colours[1]=0x757575, .colours[2]=0xf7e26b, .colours[3]=0x4d2b07},
+};
 
 Display *disp;
 Window window;
@@ -82,101 +82,6 @@ void imageDraw(UsokImage image, int x, int y) {
 }
 
 int main(int argc, char **argv) {
-	// Create images.
-	UsokMask maskTempArray[2];
-	UsokColour colourTempArray[4];
-
-	// Create image: wall
-	memset(colourTempArray, 0, sizeof(colourTempArray));
-	colourTempArray[0]=usokColourBlack;
-	int arrayWall[64]={
-		0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0,
-	};
-	usokImages[1]=imageFromArray(arrayWall, colourTempArray);
-
-	// Create image: box
-	memset(colourTempArray, 0, sizeof(colourTempArray));
-	colourTempArray[0]=usokColourDarkGrey;
-	colourTempArray[1]=usokColourDarkBlue;
-	int arrayBox[64]={
-		0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 1, 1, 0, 0, 0,
-		0, 0, 1, 1, 1, 1, 0, 0,
-		0, 0, 1, 1, 1, 1, 0, 0,
-		0, 0, 0, 1, 1, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0,
-	};
-	usokImages[2]=imageFromArray(arrayBox, colourTempArray);
-
-	// Create image: box on goal
-	memset(colourTempArray, 0, sizeof(colourTempArray));
-	colourTempArray[0]=usokColourDarkGrey;
-	colourTempArray[1]=usokColourBlack;
-	colourTempArray[2]=usokColourDarkBlue;
-	int arrayBoxOnGoal[64]={
-		0, 0, 0, 0, 0, 0, 0, 0,
-		0, 1, 0, 0, 0, 0, 1, 0,
-		0, 0, 1, 2, 2, 1, 0, 0,
-		0, 0, 2, 2, 2, 2, 0, 0,
-		0, 0, 2, 2, 2, 2, 0, 0,
-		0, 0, 1, 2, 2, 1, 0, 0,
-		0, 1, 0, 0, 0, 0, 1, 0,
-		0, 0, 0, 0, 0, 0, 0, 0,
-	};
-	usokImages[10]=imageFromArray(arrayBoxOnGoal, colourTempArray);
-
-	// Create image: floor
-	memset(colourTempArray, 0, sizeof(colourTempArray));
-	colourTempArray[0]=usokColourDarkGrey;
-	int arrayFloor[64]={
-		0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0,
-	};
-	usokImages[3]=imageFromArray(arrayFloor, colourTempArray);
-
-	// Create image: goal
-	memset(colourTempArray, 0, sizeof(colourTempArray));
-	colourTempArray[0]=usokColourDarkGrey;
-	colourTempArray[1]=usokColourBlack;
-	int arrayGoal[64]={
-		0, 0, 0, 0, 0, 0, 0, 0,
-		0, 1, 0, 0, 0, 0, 1, 0,
-		0, 0, 1, 0, 0, 1, 0, 0,
-		0, 0, 0, 1, 1, 0, 0, 0,
-		0, 0, 0, 1, 1, 0, 0, 0,
-		0, 0, 1, 0, 0, 1, 0, 0,
-		0, 1, 0, 0, 0, 0, 1, 0,
-		0, 0, 0, 0, 0, 0, 0, 0,
-	};
-	usokImages[11]=imageFromArray(arrayGoal, colourTempArray);
-
-	// Create image: player
-	usokImages[7].masks[0]=0x447C7DFE01297D39llu;
-	usokImages[7].masks[1]=0x44006D017D7C0000llu;
-	usokImages[7].colours[0]=usokColourDarkGrey;
-	usokImages[7].colours[1]=usokColourLightGrey;
-	usokImages[7].colours[2]=usokColourLightYellow;
-	usokImages[7].colours[3]=usokColourBrown;
-
-	// Create image: player
-	// TODO: Fix
-	usokImages[15]=usokImages[7];
-
 	// Load level
 	FILE *file=fopen(argv[1], "r");
 	int c, x=0, y=0;
