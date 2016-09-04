@@ -119,7 +119,7 @@ int main(int argc, char **argv) {
 			int dy=(key==KeyD)-(key==KeyU);
 
 			// Remove player from current x,y.
-			level[playerY][playerX]&=~4;
+			level[playerY][playerX]^=4;
 
 			// Update playerX,Y.
 			playerX+=dx;
@@ -138,7 +138,7 @@ int main(int argc, char **argv) {
 			}
 
 			// Add player to (potentially new) x,y.
-			level[playerY][playerX]|=4;
+			level[playerY][playerX]^=4;
 		}
 
 		// Draw base map
