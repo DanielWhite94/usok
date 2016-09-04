@@ -19,10 +19,10 @@
 #define UsokWindowHeight (UsokTilesHigh*UsokTileSize)
 
 typedef enum {
-	TileTypeBasePlayer=1,
+	TileTypeBaseNoBox=1,
 	TileTypeBaseWalkable=2,
-	TileTypeBaseGoal=4,
-	TileTypeBaseNoBox=8,
+	TileTypeBasePlayer=4,
+	TileTypeBaseGoal=8,
 
 	TileTypeBox=TileTypeBaseWalkable,
 	TileTypeBoxOnGoal=TileTypeBaseWalkable|TileTypeBaseGoal,
