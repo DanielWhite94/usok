@@ -51,13 +51,13 @@ I main(I argc, char **argv) {
 	I c, x=256, y=256;
 	while((c=fgetc(file))!=EOF)
 		switch(c) {
-			case '#': level[y][x]=1; x++; break;
-			case '@': level[y][x]=7; playerX=x, playerY=y; x++; break;
-			case '+': level[y][x]=15; playerX=x, playerY=y; x++; break;
-			case '$': level[y][x]=2; x++; break;
-			case '*': level[y][x]=10; x++; break;
-			case '.': level[y][x]=11; x++; break;
-			case ' ': level[y][x]=3; x++; break;
+			case '#': level[y][x++]=1; break;
+			case '@': level[y][x]=7; playerX=x++, playerY=y; break;
+			case '+': level[y][x]=15; playerX=x++, playerY=y; break;
+			case '$': level[y][x++]=2; break;
+			case '*': level[y][x++]=10; break;
+			case '.': level[y][x++]=11; break;
+			case ' ': level[y][x++]=3; break;
 			case '\n':
 				++y;
 				x=256;
