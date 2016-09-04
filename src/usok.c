@@ -47,29 +47,21 @@ typedef struct {
 	UsokColour colours[4];
 } UsokImage;
 
-UsokImage imageFromMasks(UsokMask masks[2], UsokColour colours[3]) {
-	UsokImage image;
-	I i;
-	for(i=0;i<2;++i)
-		image.masks[i]=masks[i];
-	for(i=0;i<4;++i)
-		image.colours[i]=colours[i];
-
-	return image;
-}
-
 UsokImage imageFromArray(int array[64], UsokColour colours[4]) {
-	UsokMask masks[2]={0,0};
+	UsokImage image={.masks[0]=0, .masks[1]=0};
 
 	int x, y, z=0;
 	for(y=0;y<8;++y)
 		for(x=0;x<8;++x) {
-			masks[0]|=((array[z]>>0)&1llu)<<z;
-			masks[1]|=((array[z]>>1)&1llu)<<z;
+			image.masks[0]|=((array[z]>>0)&1llu)<<z;
+			image.masks[1]|=((array[z]>>1)&1llu)<<z;
 			++z;
 		}
 
-	return imageFromMasks(masks, colours);
+	for(z=0; z<4; ++z)
+		image.colours[z]=colours[z];
+
+	return image;
 }
 
 UsokImage usokImages[16];
