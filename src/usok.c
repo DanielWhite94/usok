@@ -41,7 +41,7 @@ I level[512][512]={1};
 
 I playerX, playerY;
 
-void imageDraw(UsokImage image, int x, int y) {
+void imageDraw(UsokImage image, I x, I y) {
 	I i, c;
 	for(i=0;i<64;++i)
 		if (c=image.c[((image.m1>>i)%2<<1)|(image.m0>>i)%2])
@@ -49,10 +49,10 @@ void imageDraw(UsokImage image, int x, int y) {
 			XFillRectangle(disp, window, gc, x+i%8*USokPixelSize, y+i/8*USokPixelSize, USokPixelSize, USokPixelSize);
 }
 
-int main(int argc, char **argv) {
+I main(I argc, char **argv) {
 	// Load level
 	FILE *file=fopen(argv[1], "r");
-	int c, x=0, y=0;
+	I c, x=0, y=0;
 	while((c=fgetc(file))!=EOF) {
 		switch(c) {
 			case '#': level[y+256][x+256]=1; x++; break;
@@ -82,10 +82,10 @@ int main(int argc, char **argv) {
 		I dx, dy;
 		for(dy=-UsokTilesHigh/2; dy<=UsokTilesHigh/2+1; ++dy)
 			for(dx=-UsokTilesWide/2; dx<=UsokTilesWide/2+1; ++dx) {
-				int tx=dx+256;
-				int ty=dy+256;
-				int sx=UsokTileSize*(dx+UsokTilesWide/2);
-				int sy=UsokTileSize*(dy+UsokTilesHigh/2);
+				I tx=dx+256;
+				I ty=dy+256;
+				I sx=UsokTileSize*(dx+UsokTilesWide/2);
+				I sy=UsokTileSize*(dy+UsokTilesHigh/2);
 				imageDraw(usokImages[level[ty][tx]], sx, sy);
 			}
 
