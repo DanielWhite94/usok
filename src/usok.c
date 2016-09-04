@@ -60,30 +60,29 @@ UsokColour usokColourOrange={.combined=0xeb8931};
 typedef uint64_t UsokMask;
 
 typedef struct {
-	UsokMask masks[3];
-	UsokColour colours[8];
+	UsokMask masks[2];
+	UsokColour colours[4];
 } UsokImage;
 
-UsokImage imageFromMasks(UsokMask masks[3], UsokColour colours[8]) {
+UsokImage imageFromMasks(UsokMask masks[2], UsokColour colours[3]) {
 	UsokImage image;
 	I i;
-	for(i=0;i<3;++i)
+	for(i=0;i<2;++i)
 		image.masks[i]=masks[i];
-	for(i=0;i<8;++i)
+	for(i=0;i<4;++i)
 		image.colours[i]=colours[i];
 
 	return image;
 }
 
-UsokImage imageFromArray(int array[64], UsokColour colours[8]) {
-	UsokMask masks[3]={0,0,0};
+UsokImage imageFromArray(int array[64], UsokColour colours[4]) {
+	UsokMask masks[2]={0,0};
 
 	int x, y, z=0;
 	for(y=0;y<8;++y)
 		for(x=0;x<8;++x) {
 			masks[0]|=((array[z]>>0)&1llu)<<z;
 			masks[1]|=((array[z]>>1)&1llu)<<z;
-			masks[2]|=((array[z]>>2)&1llu)<<z;
 			++z;
 		}
 
@@ -106,7 +105,6 @@ void imageDraw(UsokImage image, int x, int y) {
 	UsokColour c;
 	for(i=0;i<64;++i)
 		if ((c=image.colours[
-				((image.masks[2]>>i)%2<<2)|
 				((image.masks[1]>>i)%2<<1)|
 				 (image.masks[0]>>i)%2     ]).combined!=0)
 			XSetForeground(disp, gc, c.combined),
@@ -115,8 +113,8 @@ void imageDraw(UsokImage image, int x, int y) {
 
 int main(int argc, char **argv) {
 	// Create images.
-	UsokMask maskTempArray[3];
-	UsokColour colourTempArray[8];
+	UsokMask maskTempArray[2];
+	UsokColour colourTempArray[4];
 
 	// Create image: wall
 	memset(colourTempArray, 0, sizeof(colourTempArray));
