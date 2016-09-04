@@ -20,13 +20,9 @@
 
 #define TILETYPEEMPTY(t) ((t)%8==3)
 
-typedef uint32_t UsokColour;
-
-typedef uint64_t UsokMask;
-
 typedef struct {
-	UsokMask masks[2];
-	UsokColour colours[4];
+	uint64_t masks[2];
+	uint32_t colours[4];
 } UsokImage;
 
 UsokImage usokImages[]={
@@ -58,8 +54,7 @@ I level[UsokLevelSize][UsokLevelSize]={1};
 I playerX, playerY;
 
 void imageDraw(UsokImage image, int x, int y) {
-	I i;
-	UsokColour c;
+	I i, c;
 	for(i=0;i<64;++i)
 		if (c=image.colours[((image.masks[1]>>i)%2<<1)|(image.masks[0]>>i)%2])
 			XSetForeground(disp, gc, c),
