@@ -76,9 +76,9 @@ void imageDraw(UsokImage image, int x, int y) {
 	I i;
 	UsokColour c;
 	for(i=0;i<64;++i)
-		if ((c=image.colours[((image.masks[1]>>i)%2<<1)|(image.masks[0]>>i)%2])!=0)
+		if (c=image.colours[((image.masks[1]>>i)%2<<1)|(image.masks[0]>>i)%2])
 			XSetForeground(disp, gc, c),
-			XFillRectangle(disp, window, gc, x+(i%8)*USokPixelSize, y+(i/8)*USokPixelSize, USokPixelSize, USokPixelSize);
+			XFillRectangle(disp, window, gc, x+i%8*USokPixelSize, y+i/8*USokPixelSize, USokPixelSize, USokPixelSize);
 }
 
 int main(int argc, char **argv) {
