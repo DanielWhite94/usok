@@ -52,19 +52,19 @@ void imageDraw(UsokImage image, I x, I y) {
 I main(I argc, char **argv) {
 	// Load level
 	FILE *file=fopen(argv[1], "r");
-	I c, x=0, y=0;
+	I c, x=256, y=256;
 	while((c=fgetc(file))!=EOF) {
 		switch(c) {
-			case '#': level[y+256][x+256]=1; x++; break;
-			case '@': level[y+256][x+256]=7; playerX=x+256, playerY=y+256; x++; break;
-			case '+': level[y+256][x+256]=15; playerX=x+256, playerY=y+256; x++; break;
-			case '$': level[y+256][x+256]=2; x++; break;
-			case '*': level[y+256][x+256]=10; x++; break;
-			case '.': level[y+256][x+256]=11; x++; break;
-			case ' ': level[y+256][x+256]=3; x++; break;
+			case '#': level[y][x]=1; x++; break;
+			case '@': level[y][x]=7; playerX=x, playerY=y; x++; break;
+			case '+': level[y][x]=15; playerX=x, playerY=y; x++; break;
+			case '$': level[y][x]=2; x++; break;
+			case '*': level[y][x]=10; x++; break;
+			case '.': level[y][x]=11; x++; break;
+			case ' ': level[y][x]=3; x++; break;
 			case '\n':
 				++y;
-				x=0;
+				x=256;
 			break;
 		}
 	}
