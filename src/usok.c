@@ -20,25 +20,22 @@
 
 #define TILETYPEEMPTY(t) (((t)&3)==3)
 
-typedef union {
-	uint8_t components[4];
-	uint32_t combined;
-} UsokColour;
+typedef uint32_t UsokColour;
 
-UsokColour usokColourLightBlue={.combined=0x8888FF};
-UsokColour usokColourDarkBlue={.combined=0x0000FF};
-UsokColour usokColourLightGreen={.combined=0x44FF44};
-UsokColour usokColourDarkGreen={.combined=0x00DD00};
-UsokColour usokColourLightYellow={.combined=0xf7e26b};
-UsokColour usokColourDarkYellow={.combined=0xFFFF00};
-UsokColour usokColourBrown={.combined=0x4d2b07};
-UsokColour usokColourLightGrey={.combined=0x757575};
-UsokColour usokColourBlack={.combined=0x000001};
-UsokColour usokColourTransparent={.combined=0x000000};
-UsokColour usokColourDarkDarkGreen={.combined=0x184a1d};
-UsokColour usokColourDarkGrey={.combined=0x5c5c5c};
-UsokColour usokColourPink={.combined=0xff26db};
-UsokColour usokColourOrange={.combined=0xeb8931};
+const UsokColour usokColourLightBlue=0x8888FF;
+const UsokColour usokColourDarkBlue=0x0000FF;
+const UsokColour usokColourLightGreen=0x44FF44;
+const UsokColour usokColourDarkGreen=0x00DD00;
+const UsokColour usokColourLightYellow=0xf7e26b;
+const UsokColour usokColourDarkYellow=0xFFFF00;
+const UsokColour usokColourBrown=0x4d2b07;
+const UsokColour usokColourLightGrey=0x757575;
+const UsokColour usokColourBlack=0x000001;
+const UsokColour usokColourTransparent=0x000000;
+const UsokColour usokColourDarkDarkGreen=0x184a1d;
+const UsokColour usokColourDarkGrey=0x5c5c5c;
+const UsokColour usokColourPink=0xff26db;
+const UsokColour usokColourOrange=0xeb8931;
 
 typedef uint64_t UsokMask;
 
@@ -79,10 +76,8 @@ void imageDraw(UsokImage image, int x, int y) {
 	I i;
 	UsokColour c;
 	for(i=0;i<64;++i)
-		if ((c=image.colours[
-				((image.masks[1]>>i)%2<<1)|
-				 (image.masks[0]>>i)%2     ]).combined!=0)
-			XSetForeground(disp, gc, c.combined),
+		if ((c=image.colours[((image.masks[1]>>i)%2<<1)|(image.masks[0]>>i)%2])!=0)
+			XSetForeground(disp, gc, c),
 			XFillRectangle(disp, window, gc, x+(i%8)*USokPixelSize, y+(i/8)*USokPixelSize, USokPixelSize, USokPixelSize);
 }
 
