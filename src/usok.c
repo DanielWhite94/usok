@@ -63,7 +63,6 @@ I main(I argc, char **argv) {
 				x=256;
 			break;
 		}
-	fclose(file);
 
 	// Drawing initialization
 	disp=XOpenDisplay(0);
