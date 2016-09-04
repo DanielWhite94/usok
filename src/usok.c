@@ -94,16 +94,14 @@ int main(int argc, char **argv) {
 			playerY+=dy=(key==KeyD)-(key==KeyU);
 
 			// Next square a box?
-			if (!(level[playerY][playerX]&1) && level[playerY+dy][playerX+dx]%8==3) {
-				level[playerY+dy][playerX+dx]^=1; // remove from current square
+			if (!(level[playerY][playerX]&1) && level[playerY+dy][playerX+dx]%8==3)
+				level[playerY+dy][playerX+dx]^=1, // remove from current square
 				level[playerY][playerX]^=1; // add to new square
-			}
 
 			// Next square not empty and walkable?
-			if (level[playerY][playerX]%8!=3) {
-				playerX-=dx;
+			if (level[playerY][playerX]%8!=3)
+				playerX-=dx,
 				playerY-=dy;
-			}
 
 			// Add player to (potentially new) x,y.
 			level[playerY][playerX]^=4;
