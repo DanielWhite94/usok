@@ -18,24 +18,7 @@
 #define UsokWindowWidth (UsokTilesWide*UsokTileSize)
 #define UsokWindowHeight (UsokTilesHigh*UsokTileSize)
 
-typedef enum {
-	TileTypeBaseNoBox=1,
-	TileTypeBaseWalkable=2,
-	TileTypeBasePlayer=4,
-	TileTypeBaseGoal=8,
-
-	TileTypeBox=TileTypeBaseWalkable,
-	TileTypeBoxOnGoal=TileTypeBaseWalkable|TileTypeBaseGoal,
-	TileTypeWall=TileTypeBaseNoBox,
-	TileTypeFloor=TileTypeBaseNoBox|TileTypeBaseWalkable,
-	TileTypePlayer=TileTypeBaseNoBox|TileTypeBaseWalkable|TileTypeBasePlayer,
-	TileTypeGoal=TileTypeBaseNoBox|TileTypeBaseGoal|TileTypeBaseWalkable,
-	TileTypePlayerOnGoal=TileTypeBaseNoBox|TileTypeBaseGoal|TileTypeBaseWalkable|TileTypeBasePlayer,
-
-	TileTypeNB=16,
-} TileType;
-
-#define TILETYPEEMPTY(t) (((t)&(TileTypeBaseNoBox|TileTypeBaseWalkable))==(TileTypeBaseNoBox|TileTypeBaseWalkable))
+#define TILETYPEEMPTY(t) (((t)&3)==3)
 
 typedef union {
 	uint8_t components[4];
@@ -89,14 +72,14 @@ UsokImage imageFromArray(int array[64], UsokColour colours[4]) {
 	return imageFromMasks(masks, colours);
 }
 
-UsokImage usokImages[TileTypeNB];
+UsokImage usokImages[16];
 
 Display *disp;
 Window window;
 GC gc;
 
 #define UsokLevelSize 256
-TileType level[UsokLevelSize][UsokLevelSize]={TileTypeWall};
+I level[UsokLevelSize][UsokLevelSize]={1};
 
 I playerX, playerY;
 
@@ -129,7 +112,7 @@ int main(int argc, char **argv) {
 		0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0,
 	};
-	usokImages[TileTypeWall]=imageFromArray(arrayWall, colourTempArray);
+	usokImages[1]=imageFromArray(arrayWall, colourTempArray);
 
 	// Create image: box
 	memset(colourTempArray, 0, sizeof(colourTempArray));
@@ -145,7 +128,7 @@ int main(int argc, char **argv) {
 		0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0,
 	};
-	usokImages[TileTypeBox]=imageFromArray(arrayBox, colourTempArray);
+	usokImages[2]=imageFromArray(arrayBox, colourTempArray);
 
 	// Create image: box on goal
 	memset(colourTempArray, 0, sizeof(colourTempArray));
@@ -162,7 +145,7 @@ int main(int argc, char **argv) {
 		0, 1, 0, 0, 0, 0, 1, 0,
 		0, 0, 0, 0, 0, 0, 0, 0,
 	};
-	usokImages[TileTypeBoxOnGoal]=imageFromArray(arrayBoxOnGoal, colourTempArray);
+	usokImages[10]=imageFromArray(arrayBoxOnGoal, colourTempArray);
 
 	// Create image: floor
 	memset(colourTempArray, 0, sizeof(colourTempArray));
@@ -177,7 +160,7 @@ int main(int argc, char **argv) {
 		0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0,
 	};
-	usokImages[TileTypeFloor]=imageFromArray(arrayFloor, colourTempArray);
+	usokImages[3]=imageFromArray(arrayFloor, colourTempArray);
 
 	// Create image: goal
 	memset(colourTempArray, 0, sizeof(colourTempArray));
@@ -193,35 +176,32 @@ int main(int argc, char **argv) {
 		0, 1, 0, 0, 0, 0, 1, 0,
 		0, 0, 0, 0, 0, 0, 0, 0,
 	};
-	usokImages[TileTypeGoal]=imageFromArray(arrayGoal, colourTempArray);
+	usokImages[11]=imageFromArray(arrayGoal, colourTempArray);
 
 	// Create image: player
-	memset(maskTempArray, 0, sizeof(maskTempArray));
-	maskTempArray[0]=0x447C7DFE01297D39llu;
-	maskTempArray[1]=0x44006D017D7C0000llu;
-	memset(colourTempArray, 0, sizeof(colourTempArray));
-	colourTempArray[0]=usokColourDarkGrey;
-	colourTempArray[1]=usokColourLightGrey;
-	colourTempArray[2]=usokColourLightYellow;
-	colourTempArray[3]=usokColourBrown;
-	usokImages[TileTypePlayer]=imageFromMasks(maskTempArray, colourTempArray);
+	usokImages[7].masks[0]=0x447C7DFE01297D39llu;
+	usokImages[7].masks[1]=0x44006D017D7C0000llu;
+	usokImages[7].colours[0]=usokColourDarkGrey;
+	usokImages[7].colours[1]=usokColourLightGrey;
+	usokImages[7].colours[2]=usokColourLightYellow;
+	usokImages[7].colours[3]=usokColourBrown;
 
 	// Create image: player
 	// TODO: Fix
-	usokImages[TileTypePlayerOnGoal]=usokImages[TileTypePlayer];
+	usokImages[15]=usokImages[7];
 
 	// Load level
 	FILE *file=fopen(argv[1], "r");
 	int c, x=0, y=0;
 	while((c=fgetc(file))!=EOF) {
 		switch(c) {
-			case '#': level[y+UsokLevelSize/2][x+UsokLevelSize/2]=TileTypeWall; x++; break;
-			case '@': level[y+UsokLevelSize/2][x+UsokLevelSize/2]=TileTypePlayer; playerX=x+UsokLevelSize/2, playerY=y+UsokLevelSize/2; x++; break;
-			case '+': level[y+UsokLevelSize/2][x+UsokLevelSize/2]=TileTypePlayerOnGoal; playerX=x+UsokLevelSize/2, playerY=y+UsokLevelSize/2; x++; break;
-			case '$': level[y+UsokLevelSize/2][x+UsokLevelSize/2]=TileTypeBox; x++; break;
-			case '*': level[y+UsokLevelSize/2][x+UsokLevelSize/2]=TileTypeBoxOnGoal; x++; break;
-			case '.': level[y+UsokLevelSize/2][x+UsokLevelSize/2]=TileTypeGoal; x++; break;
-			case ' ': level[y+UsokLevelSize/2][x+UsokLevelSize/2]=TileTypeFloor; x++; break;
+			case '#': level[y+UsokLevelSize/2][x+UsokLevelSize/2]=1; x++; break;
+			case '@': level[y+UsokLevelSize/2][x+UsokLevelSize/2]=7; playerX=x+UsokLevelSize/2, playerY=y+UsokLevelSize/2; x++; break;
+			case '+': level[y+UsokLevelSize/2][x+UsokLevelSize/2]=15; playerX=x+UsokLevelSize/2, playerY=y+UsokLevelSize/2; x++; break;
+			case '$': level[y+UsokLevelSize/2][x+UsokLevelSize/2]=2; x++; break;
+			case '*': level[y+UsokLevelSize/2][x+UsokLevelSize/2]=10; x++; break;
+			case '.': level[y+UsokLevelSize/2][x+UsokLevelSize/2]=11; x++; break;
+			case ' ': level[y+UsokLevelSize/2][x+UsokLevelSize/2]=3; x++; break;
 			case '\n':
 				++y;
 				x=0;
@@ -247,16 +227,16 @@ int main(int argc, char **argv) {
 			int dy=(key==KeyD)-(key==KeyU);
 
 			// Remove player from current x,y.
-			level[playerY][playerX]&=~TileTypeBasePlayer;
+			level[playerY][playerX]&=~4;
 
 			// Update playerX,Y.
 			playerX+=dx;
 			playerY+=dy;
 
 			// Next square a box?
-			if (!(level[playerY][playerX]&TileTypeBaseNoBox) && TILETYPEEMPTY(level[playerY+dy][playerX+dx])) {
-				level[playerY+dy][playerX+dx]&=~TileTypeBaseNoBox; // remove from current square
-				level[playerY][playerX]|=TileTypeBaseNoBox; // add to new square
+			if (!(level[playerY][playerX]&1) && TILETYPEEMPTY(level[playerY+dy][playerX+dx])) {
+				level[playerY+dy][playerX+dx]^=1; // remove from current square
+				level[playerY][playerX]^=1; // add to new square
 			}
 
 			// Next square not empty and walkable?
@@ -266,7 +246,7 @@ int main(int argc, char **argv) {
 			}
 
 			// Add player to (potentially new) x,y.
-			level[playerY][playerX]|=TileTypeBasePlayer;
+			level[playerY][playerX]|=4;
 		}
 
 		// Draw base map
