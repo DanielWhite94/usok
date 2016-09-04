@@ -80,10 +80,6 @@ int main(int argc, char **argv) {
 	XEvent event;
 	for(;;XNextEvent(disp, &event)) {
 		if(event.type==KeyPress) {
-			// Lookup key
-			int key=XLookupKeysym(&event.xkey,0);
-			int dx=(key==KeyR)-(key==KeyL);
-			int dy=(key==KeyD)-(key==KeyU);
 
 			// Remove player from current x,y.
 			level[playerY][playerX]^=4;
