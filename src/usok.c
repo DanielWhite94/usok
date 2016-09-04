@@ -77,10 +77,25 @@ int main(int argc, char **argv) {
 	gc=XCreateGC(disp,window,0,0);
 
 	// Main loop
-	XEvent event;
-	for(;;XNextEvent(disp, &event)) {
-		if(event.type==KeyPress) {
+	for(;;) {
+		// Draw base map
+		I dx, dy;
+		for(dy=-UsokTilesHigh/2; dy<=UsokTilesHigh/2+1; ++dy)
+			for(dx=-UsokTilesWide/2; dx<=UsokTilesWide/2+1; ++dx) {
+				int tx=dx+256;
+				int ty=dy+256;
+				int sx=UsokTileSize*(dx+UsokTilesWide/2);
+				int sy=UsokTileSize*(dy+UsokTilesHigh/2);
+				imageDraw(usokImages[level[ty][tx]], sx, sy);
+			}
 
+		// Update disp
+		XFlush(disp);
+
+		// Look for key presses.
+		XEvent event;
+		XNextEvent(disp, &event);
+		if(event.type==KeyPress) {
 			// Remove player from current x,y.
 			level[playerY][playerX]^=4;
 
@@ -103,25 +118,10 @@ int main(int argc, char **argv) {
 			level[playerY][playerX]^=4;
 		}
 
-		// Draw base map
-		I dx, dy;
-		for(dy=-UsokTilesHigh/2; dy<=UsokTilesHigh/2+1; ++dy)
-			for(dx=-UsokTilesWide/2; dx<=UsokTilesWide/2+1; ++dx) {
-				int tx=dx+UsokLevelSize/2;
-				int ty=dy+UsokLevelSize/2;
-				int sx=UsokTileSize*(dx+UsokTilesWide/2);
-				int sy=UsokTileSize*(dy+UsokTilesHigh/2);
-				imageDraw(usokImages[level[ty][tx]], sx, sy);
-			}
-
-		// Update disp
-		XFlush(disp);
-
 		// Delay
 		usleep(1000*1000.0/8);
 	}
 }
-
 
 
 
