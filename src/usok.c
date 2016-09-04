@@ -81,13 +81,8 @@ I main(I argc, char **argv) {
 		// Draw base map
 		I dx, dy;
 		for(dy=-UsokTilesHigh/2; dy<=UsokTilesHigh/2+1; ++dy)
-			for(dx=-UsokTilesWide/2; dx<=UsokTilesWide/2+1; ++dx) {
-				I tx=dx+256;
-				I ty=dy+256;
-				I sx=UsokTileSize*(dx+UsokTilesWide/2);
-				I sy=UsokTileSize*(dy+UsokTilesHigh/2);
-				imageDraw(usokImages[level[ty][tx]], sx, sy);
-			}
+			for(dx=-UsokTilesWide/2; dx<=UsokTilesWide/2+1; ++dx)
+				imageDraw(usokImages[level[dy+256][dx+256]], UsokTileSize*(dx+UsokTilesWide/2), UsokTileSize*(dy+UsokTilesHigh/2));
 
 		// Update disp
 		XFlush(disp);
