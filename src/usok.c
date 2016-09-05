@@ -31,11 +31,10 @@ void imageDraw(long long image[6], x, y) {
 		XFillRectangle(D, W, G, x+i%8*USokPixelSize, y+i/8*USokPixelSize, USokPixelSize, USokPixelSize);
 }
 
-I main(I c, char **v) {
+main(c) {
 	// load level
-	FILE *file=fopen(v[1], "r");
 	I x=256, y=256;
-	while((c=fgetc(file))!=EOF)
+	while((c=getchar())!=EOF)
 		switch(c) {
 			case '#': L[y][x++]=1; break;
 			case '@': L[y][x]=7; P=x++, Q=y; break;
