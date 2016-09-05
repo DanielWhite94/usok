@@ -1,11 +1,6 @@
-#include <math.h>
-#include <stdint.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <X11/keysym.h>
 #include <X11/Xlib.h>
-#include <unistd.h>
 
 #define I int
 
