@@ -72,32 +72,33 @@ I main(I argc, char **argv) {
 		// Look for key presses.
 		XEvent event;
 		XNextEvent(disp, &event);
-		if(event.type!=KeyPress)
-			continue;
+		if(event.type==KeyPress) {
+			// Remove player from current x,y.
+			level[playerY][playerX]^=4;
 
-		// Remove player from current x,y.
-		level[playerY][playerX]^=4;
+			// Lookup key and update playerX,Y.
+			I key=XLookupKeysym(&event.xkey,0);
+			playerX+=dx=(key==KeyR)-(key==KeyL);
+			// ... inline these into next square is box thing below
+			playerY+=dy=(key==KeyD)-(key==KeyU);
 
-		// Lookup key and update playerX,Y.
-		I key=XLookupKeysym(&event.xkey,0);
-		playerX+=dx=(key==KeyR)-(key==KeyL);
-		playerY+=dy=(key==KeyD)-(key==KeyU);
+			// Next square a box?
+			if (!(level[playerY][playerX]&1) && level[playerY+dy][playerX+dx]%8==3)
+				level[playerY+dy][playerX+dx]^=1, // remove from current square
+				level[playerY][playerX]^=1; // add to new square
 
-		// Next square a box?
-		if (!(level[playerY][playerX]&1) && level[playerY+dy][playerX+dx]%8==3)
-			level[playerY+dy][playerX+dx]^=1, // remove from current square
-			level[playerY][playerX]^=1; // add to new square
+			// Next square not empty and walkable?
+			// ...%8-3 instead?
+			if (level[playerY][playerX]%8!=3)
+				playerX-=dx,
+				playerY-=dy;
 
-		// Next square not empty and walkable?
-		if (level[playerY][playerX]%8!=3)
-			playerX-=dx,
-			playerY-=dy;
+			// Add player to (potentially new) x,y.
+			level[playerY][playerX]^=4;
 
-		// Add player to (potentially new) x,y.
-		level[playerY][playerX]^=4;
-
-		// Delay
-		usleep(99999);
+			// Delay
+			usleep(99999);
+		}
 	}
 }
 
