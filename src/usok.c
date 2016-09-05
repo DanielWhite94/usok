@@ -19,11 +19,11 @@ Display *D;Window W;GC G; // xlib stuff
 L[512][512]={1}; // level
 P, Q; // player's X and Y
 
-void imageDraw(long long image[6], x, y) {
-	I i, c;
-	for(i=0;i<64;++i)
-		XSetForeground(D, G, C[image[((image[5]>>i)%2<<1)|(image[4]>>i)%2]]),
-		XFillRectangle(D, W, G, x+i%8*2, y+i/8*2, 2, 2);
+void imageDraw(long long *i, x, y) {
+	I z, c;
+	for(z=0;z<64;++z)
+		XSetForeground(D, G, C[i[((i[5]>>z)%2<<1)|(i[4]>>z)%2]]),
+		XFillRectangle(D, W, G, x+z%8*2, y+z/8*2, 2, 2);
 }
 
 main(y) {
