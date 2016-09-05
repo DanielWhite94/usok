@@ -27,9 +27,8 @@ I P, Q; // player's X and Y
 void imageDraw(long long image[6], I x, I y) {
 	I i, c;
 	for(i=0;i<64;++i)
-		if (c=C[image[((image[5]>>i)%2<<1)|(image[4]>>i)%2]])
-			XSetForeground(D, G, c),
-			XFillRectangle(D, W, G, x+i%8*USokPixelSize, y+i/8*USokPixelSize, USokPixelSize, USokPixelSize);
+		XSetForeground(D, G, C[image[((image[5]>>i)%2<<1)|(image[4]>>i)%2]]),
+		XFillRectangle(D, W, G, x+i%8*USokPixelSize, y+i/8*USokPixelSize, USokPixelSize, USokPixelSize);
 }
 
 I main(I c, char **v) {
