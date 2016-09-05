@@ -4,11 +4,6 @@
 
 #define I int
 
-#define USokPixelSize 2
-#define UsokTileSize (USokPixelSize*8)
-#define UsokTilesWide 40
-#define UsokTilesHigh 30
-
 C[]={255,16245355,5057287,7697781,1,6052956};
 long long IM[][6]={
  [1]={4,0,0,0,0,0},
@@ -28,7 +23,7 @@ void imageDraw(long long image[6], x, y) {
 	I i, c;
 	for(i=0;i<64;++i)
 		XSetForeground(D, G, C[image[((image[5]>>i)%2<<1)|(image[4]>>i)%2]]),
-		XFillRectangle(D, W, G, x+i%8*USokPixelSize, y+i/8*USokPixelSize, USokPixelSize, USokPixelSize);
+		XFillRectangle(D, W, G, x+i%8*2, y+i/8*2, 2, 2);
 }
 
 main(y) {
@@ -48,16 +43,16 @@ main(y) {
 
 	// drawing initialization
 	D=XOpenDisplay(0);
-	XSelectInput(D, W=XCreateSimpleWindow(D,RootWindow(D,0),0,0, UsokTilesWide*UsokTileSize, UsokTilesHigh*UsokTileSize,0,0,0), KeyPressMask);
+	XSelectInput(D, W=XCreateSimpleWindow(D,RootWindow(D,0),0,0,640,480,0,0,0), KeyPressMask);
 	XMapWindow(D,W);
 	G=XCreateGC(D,W,0,0);
 
 	// main loop
 	for(;;) {
 		// draw base map
-		for(y=-UsokTilesHigh/2; y<=UsokTilesHigh/2+1; ++y)
-			for(x=-UsokTilesWide/2; x<=UsokTilesWide/2+1; ++x)
-				imageDraw(IM[L[y+256][x+256]], UsokTileSize*(x+UsokTilesWide/2), UsokTileSize*(y+UsokTilesHigh/2));
+		for(y=-15; y<=16; ++y)
+			for(x=-20; x<=21; ++x)
+				imageDraw(IM[L[y+256][x+256]], 16*(x+20), 16*(y+15));
 
 		// wait for key press
 		XEvent e;
