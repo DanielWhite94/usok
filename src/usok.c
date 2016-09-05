@@ -37,7 +37,7 @@ void imageDraw(long long image[6], I x, I y) {
 }
 
 I main(I argc, char **argv) {
-	// Load level
+	// load level
 	FILE *file=fopen(argv[1], "r");
 	I c, x=256, y=256;
 	while((c=fgetc(file))!=EOF)
@@ -55,47 +55,33 @@ I main(I argc, char **argv) {
 			break;
 		}
 
-	// Drawing initialization
+	// drawing initialization
 	disp=XOpenDisplay(0);
 	XSelectInput(disp, window=XCreateSimpleWindow(disp,RootWindow(disp,0),0,0, UsokTilesWide*UsokTileSize, UsokTilesHigh*UsokTileSize,0,0,0), KeyPressMask);
 	XMapWindow(disp,window);
 	gc=XCreateGC(disp,window,0,0);
 
-	// Main loop
+	// main loop
 	for(;;) {
-		// Draw base map
+		// draw base map
 		I dx, dy;
 		for(dy=-UsokTilesHigh/2; dy<=UsokTilesHigh/2+1; ++dy)
 			for(dx=-UsokTilesWide/2; dx<=UsokTilesWide/2+1; ++dx)
 				imageDraw(usokImages[level[dy+256][dx+256]], UsokTileSize*(dx+UsokTilesWide/2), UsokTileSize*(dy+UsokTilesHigh/2));
 
-		// Look for key presses.
+		// wait for key press
 		XEvent event;
 		XNextEvent(disp, &event);
 		if(event.type==KeyPress) {
-			// Remove player from current x,y.
-			level[playerY][playerX]^=4;
-
-			// Lookup key and update playerX,Y.
-			I key=XLookupKeysym(&event.xkey,0);
-			playerX+=dx=(key==KeyR)-(key==KeyL);
-			// ... inline these into next square is box thing below
+			level[playerY][playerX]^=4; // remove player from current position
+			I key=XLookupKeysym(&event.xkey,0); // Lookup key
+			playerX+=dx=(key==KeyR)-(key==KeyL); // calculate dx, dy and update player's position.
 			playerY+=dy=(key==KeyD)-(key==KeyU);
-
-			// Next square a box?
-			if (!(level[playerY][playerX]&1) && level[playerY+dy][playerX+dx]%8==3)
-				level[playerY+dy][playerX+dx]^=1, // remove from current square
-				level[playerY][playerX]^=1; // add to new square
-
-			// Next square not empty and walkable?
-			// ...%8-3 instead?
-			if (level[playerY][playerX]%8!=3)
-				playerX-=dx,
-				playerY-=dy;
-
-			// Add player to (potentially new) x,y.
-			level[playerY][playerX]^=4;
-
+			if (!(level[playerY][playerX]&1) && level[playerY+dy][playerX+dx]%8==3) // next square a box which can be pushed?
+				level[playerY+dy][playerX+dx]^=1,level[playerY][playerX]^=1; // move box
+			if (level[playerY][playerX]%8-3) // next square not walkable or occupied?
+				playerX-=dx,playerY-=dy; // reverse player movement
+			level[playerY][playerX]^=4; // add player to current/new position
 			// Delay
 			usleep(99999);
 		}
