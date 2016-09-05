@@ -36,17 +36,14 @@ main(c) {
 	I x=256, y=256;
 	while((c=getchar())!=EOF)
 		switch(c) {
-			case '#': L[y][x++]=1; break;
-			case '@': L[y][x]=7; P=x++, Q=y; break;
-			case '+': L[y][x]=15; P=x++, Q=y; break;
-			case '$': L[y][x++]=2; break;
-			case '*': L[y][x++]=10; break;
-			case '.': L[y][x++]=11; break;
-			case ' ': L[y][x++]=3; break;
-			case '\n':
-				++y;
-				x=256;
-			break;
+			case 35: L[y][x++]=1; break;
+			case 64: L[y][x]=7; P=x++, Q=y; break;
+			case 43: L[y][x]=15; P=x++, Q=y; break;
+			case 36: L[y][x++]=2; break;
+			case 42: L[y][x++]=10; break;
+			case 46: L[y][x++]=11; break;
+			case 32: L[y][x++]=3; break;
+			case 10: ++y; x=256; break;
 		}
 
 	// drawing initialization
