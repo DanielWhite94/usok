@@ -82,8 +82,6 @@ I main(I argc, char **argv) {
 			if (level[playerY][playerX]%8-3) // next square not walkable or occupied?
 				playerX-=dx,playerY-=dy; // reverse player movement
 			level[playerY][playerX]^=4; // add player to current/new position
-			// Delay
-			usleep(99999);
 		}
 	}
 }
