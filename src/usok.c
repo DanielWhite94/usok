@@ -31,9 +31,9 @@ void imageDraw(long long image[6], x, y) {
 		XFillRectangle(D, W, G, x+i%8*USokPixelSize, y+i/8*USokPixelSize, USokPixelSize, USokPixelSize);
 }
 
-main(c) {
+main(y) {
 	// load level
-	I x=256, y=256;
+	I c, x=y=256;
 	while((c=getchar())!=EOF)
 		switch(c) {
 			case 35: L[y][x++]=1; break;
