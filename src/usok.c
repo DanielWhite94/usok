@@ -69,9 +69,6 @@ I main(I argc, char **argv) {
 			for(dx=-UsokTilesWide/2; dx<=UsokTilesWide/2+1; ++dx)
 				imageDraw(usokImages[level[dy+256][dx+256]], UsokTileSize*(dx+UsokTilesWide/2), UsokTileSize*(dy+UsokTilesHigh/2));
 
-		// Update disp
-		XFlush(disp);
-
 		// Look for key presses.
 		XEvent event;
 		XNextEvent(disp, &event);
