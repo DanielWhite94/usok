@@ -69,9 +69,7 @@ I main(I c, char **v) {
 		if(e.type==KeyPress) {
 			L[Q][P]^=4; // remove player from current position
 			c=XLookupKeysym(&e.xkey,0); // Lookup key
-			P+=x=(c==KeyR)-(c==KeyL); // calculate dx, dy and update player's position.
-			Q+=y=(c==KeyD)-(c==KeyU);
-			if (!(L[Q][P]&1) && L[Q+y][P+x]%8==3) // next square a box which can be pushed?
+			if (!(L[Q+=y=(c==KeyD)-(c==KeyU)][P+=x=(c==KeyR)-(c==KeyL)]&1) && L[Q+y][P+x]%8==3) // calculate dx, dy and update player's position, then is next square a box which can be pushed?
 				L[Q+y][P+x]^=1,L[Q][P]^=1; // move box
 			if (L[Q][P]%8-3) // next square not walkable or occupied?
 				P-=x,Q-=y; // reverse player movement
