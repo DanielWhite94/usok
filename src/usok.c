@@ -14,19 +14,15 @@
 #define UsokTilesWide 40
 #define UsokTilesHigh 30
 
-typedef struct {
-	uint64_t m0, m1;
-	uint32_t c[4];
-} UsokImage;
-
-UsokImage usokImages[]={
-        [1]={.c[0]=1},
-        [2]={.m0=0x183c3c180000ll, .c[0]=6052956, .c[1]=255},
-        [3]={.c[0]=6052956},
-        [7]={.m0=0x447c7dfe01297d39ll, .m1=0x44006d017d7c0000ll, .c[0]=6052956, .c[1]=7697781, .c[2]=16245355, .c[3]=5057287},
-        [10]={.m0=0x42240000244200ll, .m1=0x183c3c180000ll, .c[0]=6052956, .c[1]=1, .c[2]=255},
-        [11]={.m0=0x42241818244200ll, .c[0]=6052956, .c[1]=1},
-        [15]={.m0=0x447c7dfe01297d39ll, .m1=0x44006d017d7c0000ll, .c[0]=6052956, .c[1]=7697781, .c[2]=16245355, .c[3]=5057287},
+I usokColours[]={255,16245355,5057287,7697781,1,6052956};
+long long usokImages[][6]={
+ [1]={4,0,0,0,0,0},
+ [2]={5,0,0,0,0x183c3c180000ll,0},
+ [3]={5,0,0,0,0,0},
+ [7]={5,3,1,2,0x447c7dfe01297d39ll,0x44006d017d7c0000ll},
+ [10]={5,4,0,0,0x42240000244200ll,0x183c3c180000ll},
+ [11]={5,4,0,0,0x42241818244200ll,0},
+ [15]={5,3,1,2,0x447c7dfe01297d39ll,0x44006d017d7c0000ll},
 };
 
 Display *disp;
@@ -37,10 +33,10 @@ I level[512][512]={1};
 
 I playerX, playerY;
 
-void imageDraw(UsokImage image, I x, I y) {
+void imageDraw(long long image[6], I x, I y) {
 	I i, c;
 	for(i=0;i<64;++i)
-		if (c=image.c[((image.m1>>i)%2<<1)|(image.m0>>i)%2])
+		if (c=usokColours[image[((image[5]>>i)%2<<1)|(image[4]>>i)%2]])
 			XSetForeground(disp, gc, c),
 			XFillRectangle(disp, window, gc, x+i%8*USokPixelSize, y+i/8*USokPixelSize, USokPixelSize, USokPixelSize);
 }
