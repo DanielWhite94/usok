@@ -9,7 +9,7 @@
 #define UsokTilesWide 40
 #define UsokTilesHigh 30
 
-I C[]={255,16245355,5057287,7697781,1,6052956};
+C[]={255,16245355,5057287,7697781,1,6052956};
 long long IM[][6]={
  [1]={4,0,0,0,0,0},
  [2]={5,0,0,0,0x183c3c180000ll,0},
@@ -21,10 +21,10 @@ long long IM[][6]={
 };
 
 Display *D;Window W;GC G; // xlib stuff
-I L[512][512]={1}; // level
-I P, Q; // player's X and Y
+L[512][512]={1}; // level
+P, Q; // player's X and Y
 
-void imageDraw(long long image[6], I x, I y) {
+void imageDraw(long long image[6], x, y) {
 	I i, c;
 	for(i=0;i<64;++i)
 		XSetForeground(D, G, C[image[((image[5]>>i)%2<<1)|(image[4]>>i)%2]]),
