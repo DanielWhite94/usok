@@ -59,23 +59,22 @@ I main(I c, char **v) {
 	// main loop
 	for(;;) {
 		// draw base map
-		I dx, dy;
-		for(dy=-UsokTilesHigh/2; dy<=UsokTilesHigh/2+1; ++dy)
-			for(dx=-UsokTilesWide/2; dx<=UsokTilesWide/2+1; ++dx)
-				imageDraw(IM[L[dy+256][dx+256]], UsokTileSize*(dx+UsokTilesWide/2), UsokTileSize*(dy+UsokTilesHigh/2));
+		for(y=-UsokTilesHigh/2; y<=UsokTilesHigh/2+1; ++y)
+			for(x=-UsokTilesWide/2; x<=UsokTilesWide/2+1; ++x)
+				imageDraw(IM[L[y+256][x+256]], UsokTileSize*(x+UsokTilesWide/2), UsokTileSize*(y+UsokTilesHigh/2));
 
 		// wait for key press
-		XEvent event;
-		XNextEvent(D, &event);
-		if(event.type==KeyPress) {
+		XEvent e;
+		XNextEvent(D, &e);
+		if(e.type==KeyPress) {
 			L[Q][P]^=4; // remove player from current position
-			I key=XLookupKeysym(&event.xkey,0); // Lookup key
-			P+=dx=(key==KeyR)-(key==KeyL); // calculate dx, dy and update player's position.
-			Q+=dy=(key==KeyD)-(key==KeyU);
-			if (!(L[Q][P]&1) && L[Q+dy][P+dx]%8==3) // next square a box which can be pushed?
-				L[Q+dy][P+dx]^=1,L[Q][P]^=1; // move box
+			c=XLookupKeysym(&e.xkey,0); // Lookup key
+			P+=x=(c==KeyR)-(c==KeyL); // calculate dx, dy and update player's position.
+			Q+=y=(c==KeyD)-(c==KeyU);
+			if (!(L[Q][P]&1) && L[Q+y][P+x]%8==3) // next square a box which can be pushed?
+				L[Q+y][P+x]^=1,L[Q][P]^=1; // move box
 			if (L[Q][P]%8-3) // next square not walkable or occupied?
-				P-=dx,Q-=dy; // reverse player movement
+				P-=x,Q-=y; // reverse player movement
 			L[Q][P]^=4; // add player to current/new position
 		}
 	}
