@@ -54,10 +54,9 @@ main(y) {
 			for(x=-20; x<=21; ++x)
 				imageDraw(IM[L[y+256][x+256]], 16*(x+20), 16*(y+15));
 
-		// wait for key press
+		// check for key press
 		XEvent e;
-		XNextEvent(D, &e);
-		if(e.type==KeyPress) {
+		if (XCheckTypedEvent(D, KeyPress, &e)) {
 			L[Q][P]^=4; // remove player from current position
 			c=XLookupKeysym(&e.xkey,0); // Lookup key
 			if (!(L[Q+=y=(c==KeyD)-(c==KeyU)][P+=x=(c==KeyR)-(c==KeyL)]&1) && L[Q+y][P+x]%8==3) // calculate dx, dy and update player's position, then is next square a box which can be pushed?

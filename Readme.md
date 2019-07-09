@@ -11,10 +11,6 @@ usok is a minified graphical implementation of the Sokoban game where the player
 
 ![Screenshot of usok Game](https://raw.githubusercontent.com/DanielWhite94/usok/master/screenshots/usok4.png)
 
-### Bugs
-
-Currently on startup, after loading a level, the screen is blank and requires pressing an arrow key to initiate a movement, and thus a redraw.
-
 ### Compiling and Using
 
 To build use the included `Makefile`. To run pass a standard level file via stdin - e.g. `cat level | ./usok` - and then use the arrow keys to move.
